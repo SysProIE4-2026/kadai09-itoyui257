@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
     for (int i = 1; i < argc; i++) {
       if (putenv(argv[i]) < 0) {
         execvp(argv[i], &argv[i]);
+        perror(argv[i]);
         return 0;
       }
     }
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
   for (int i = 0; environ[i] != NULL; i++) {  // NULLが見つかるまでname=valを表示し続ける
     printf("%s\n", environ[i]);
   }
-    return 0;
+  return 0;
 }
 
 /* 実行例
@@ -39,6 +40,9 @@ total 384
 -rw-r--r--  1 itoyui  staff      93  6月 29 21:35 myputenv.h
 -rw-r--r--  1 itoyui  staff    1268  6月 29 21:35 README.md
 -rw-r--r--  1 itoyui  staff  139098  6月 29 21:35 README.pdf
+
+$ ./myenv LC_TIME=ja_JP.UTF-8 TZ=Cuba a  // 環境変数設定 ＋ 存在しないコマンド
+a: No such file or directory
 
 $ ./myenv LC_TIME=ja_JP.UTF-8 TZ=Cuba  // 環境変数設定のみ(コマンドなし)
 __CFBundleIdentifier=com.apple.Terminal
